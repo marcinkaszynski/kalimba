@@ -57,14 +57,15 @@ public class KalimbaActivity extends UnityPlayerActivity {
 	}
 
 	private void initPd() throws IOException {
-		if (AudioParameters.suggestSampleRate() < SAMPLE_RATE) {
+                if (AudioParameters.suggestSampleRate() < SAMPLE_RATE) {
 			throw new IOException("required sample rate not available");
 		}
 		int nOut = Math.min(AudioParameters.suggestOutputChannels(), 2);
 		if (nOut == 0) {
 			throw new IOException("audio output not available");
 		}
-		PdAudio.initAudio(SAMPLE_RATE, 0, nOut, 256, true);
+                PdAudio.initAudio(AudioParameters.suggestSampleRate(), 0, nOut, 256, true);
+                Log.d("KALIMBA", "sample rate: " + AudioParameters.suggestSampleRate());
 	}
 	
 	@Override
