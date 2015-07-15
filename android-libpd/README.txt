@@ -1,13 +1,3 @@
-* to compile the libpd jni lib run make in this directory
-* to compile the jar file with the activity you can use eclipse (project file in this directory) + ant (build.xml)
-
-Additional infos integrating custom activities into Unity
-
-http://docs.unity3d.com/Documentation/Manual/PluginsForAndroid.html
-
-
------------------------------- pd ------------------------------------------
-
 Quick note on building the native pd library, libpdnative.so:
 
   - The Android NDK docs seem to suggest that the way to build native

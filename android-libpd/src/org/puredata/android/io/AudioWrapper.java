@@ -9,13 +9,17 @@ package org.puredata.android.io;
 
 import java.io.IOException;
 
+import org.puredata.android.service.R;
 import org.puredata.android.utils.Properties;
 
+import android.annotation.TargetApi;
 import android.content.Context;
 import android.media.AudioFormat;
 import android.media.AudioManager;
 import android.media.AudioRecord;
 import android.media.AudioTrack;
+import android.media.MediaPlayer;
+import android.os.Build;
 import android.os.Process;
 import android.util.Log;
 
@@ -128,7 +132,7 @@ public abstract class AudioWrapper {
 		try {
 			audioThread.join();
 		} catch (InterruptedException e) {
-			// do nothing
+			Thread.currentThread().interrupt();  // Preserve interrupt flag for caller.
 		}
 		audioThread = null;
 	}
@@ -162,6 +166,7 @@ public abstract class AudioWrapper {
 		}
 	}
 	
+	@TargetApi(Build.VERSION_CODES.GINGERBREAD)
 	private static class AudioSessionHandler {
 		private static int getAudioSessionId(AudioTrack track) {
 			return track.getAudioSessionId();
@@ -172,13 +177,11 @@ public abstract class AudioWrapper {
 	// a few milliseconds of silence before starting AudioTrack
 	private void avoidClickHack(Context context) {
 		try {
-			/*
 			MediaPlayer mp = MediaPlayer.create(context, R.raw.silence);
 			mp.start();
 			Thread.sleep(10);
 			mp.stop();
 			mp.release();
-			*/
 		} catch (Exception e) {
 			Log.e(AUDIO_WRAPPER, e.toString());
 		}
