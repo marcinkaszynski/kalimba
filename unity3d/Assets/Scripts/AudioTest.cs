@@ -19,6 +19,8 @@ public class AudioTest : MonoBehaviour
 
 	void OnGUI ()
 	{
+		useGUILayout = false;
+
 		if (GUI.Button (new Rect (10, 10, 100, 50), "sine_on")) 
 		{
 			KalimbaPd.SendBangToReceiver("sine_on");

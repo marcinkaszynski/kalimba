@@ -17,7 +17,7 @@ public class KalimbaActivity extends UnityPlayerActivity {
 	public static android.app.Activity instance;
 	
 	private static final String TAG = "Kalimba";
-	private static final int SAMPLE_RATE = 44100;
+        private static final int MIN_SAMPLE_RATE = 44100;
 	
 	@Override
 	public void onStart() {
@@ -57,16 +57,9 @@ public class KalimbaActivity extends UnityPlayerActivity {
 	}
 
 	private void initPd() throws IOException {
-                if (AudioParameters.suggestSampleRate() < SAMPLE_RATE) {
-			throw new IOException("required sample rate not available");
-		}
-		int nOut = Math.min(AudioParameters.suggestOutputChannels(), 2);
-		if (nOut == 0) {
-			throw new IOException("audio output not available");
-		}
-                PdAudio.initAudio(AudioParameters.suggestSampleRate(), 0, nOut, 256, true);
-                Log.d("KALIMBA", "sample rate: " + AudioParameters.suggestSampleRate());
-	}
+                int srate = Math.max(MIN_SAMPLE_RATE, AudioParameters.suggestSampleRate());
+		PdAudio.initAudio(srate, 0, 2, 1, true);
+        }
 	
 	@Override
 	public void onResume() {
